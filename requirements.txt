@@ -1,0 +1,18 @@
+# Web Framework & Server
+fastapi
+uvicorn
+pydantic
+
+# Machine Learning & Data Processing
+pandas
+numpy
+scikit-learn
+lightgbm
+shap
+
+# GUI Framework
+PySide6
+
+# Utilities
+requests
+joblib

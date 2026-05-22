@@ -1,0 +1,31 @@
+name: churn_prediction_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      # GUI Framework
+      - PySide6
+      # Web Backend
+      - fastapi
+      - uvicorn
+      - pydantic
+      - requests
+      # ML & Data Analysis
+      - pandas
+      - numpy
+      - scikit-learn
+      - lightgbm
+      - shap
+      - joblib
+      - mlflow
+      - matplotlib
+      - seaborn
+      - xgboost
+      - optuna
+      - plotly  
+      # Utilities
+      - python-dotenv
+      - ipywidgets

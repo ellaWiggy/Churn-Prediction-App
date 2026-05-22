@@ -1,0 +1,18 @@
+# Evaluation & Visuals
+matplotlib
+seaborn
+plotly
+
+# Experiment Tracking & Tuning
+mlflow
+optuna
+xgboost
+
+# Data Acquisition & Env
+python-dotenv
+kaggle
+kagglehub
+ipywidgets
+
+# Plus everything from the base requirements
+-r requirements.txt
