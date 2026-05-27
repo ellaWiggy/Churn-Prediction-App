@@ -6,10 +6,7 @@ from matplotlib.axes import Axes
 
 
 def categorize_and_print_columns(dataframe, max_unique=10):
-    """
-    Categorizes DataFrame columns into binary, categorical, numeric categorical, and numerical types based on unique value counts and data types. 
-    Prints the categorized columns in a formatted manner.
-    """
+    # Categorize columns by value uniqueness and dtype, then print a formatted summary.
     categories = {
         'binary': [],
         'categorical': [],
@@ -47,9 +44,7 @@ def categorize_and_print_columns(dataframe, max_unique=10):
     return categories
 
 def plot_stacked_bar(ax, df_plot, col, target, palette, show_legend):
-    """
-    Plots a horizontal stacked bar chart for a given feature against the target variable, with annotations for counts.
-    """
+    # Plot a horizontal stacked bar chart for Stay vs Churn with count labels.
     pd_ct = pd.crosstab(df_plot[col], df_plot[target])[['Stay', 'Churn']]
     pd_ct.plot(kind='barh', stacked=True, ax=ax, color=[palette['Stay'], palette['Churn']], legend=show_legend, width=0.8)
 
@@ -80,9 +75,7 @@ def plot_stacked_bar(ax, df_plot, col, target, palette, show_legend):
 
 
 def plot_kde(ax, df_plot, col, target, palette):
-    """
-    Plots a KDE plot for a given feature against the target variable, with vertical lines indicating class means and annotations.
-    """
+    # KDE plots with an average line for each class in the features.
     sns.kdeplot(
         data=df_plot, x=col, hue=target, 
         fill=True, ax=ax, palette=palette, 
@@ -101,9 +94,7 @@ def plot_kde(ax, df_plot, col, target, palette):
 
 
 def plot_feature_grid(data, features, barplot=False, target='churn'):
-    """
-    Plots a grid of features with either KDE plots or stacked bar charts against the target variable.
-    """
+    # Create a multi-column grid using either KDE or stacked bar plots by feature types.
     df_plot = data.copy()
     df_plot[target] = df_plot[target].map({0: 'Stay', 1: 'Churn'})
 
@@ -133,6 +124,7 @@ def plot_feature_grid(data, features, barplot=False, target='churn'):
 
 
 def find_outliers(data, features=None, method='iqr', plot=True):
+    # Produce a plot of boxplots for the features using the method listed to find outliers.
     if features is None:
         features = data.select_dtypes(include=['number']).columns
         

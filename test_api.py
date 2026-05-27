@@ -1,5 +1,13 @@
 import requests
 import json
+import pandas as pd
+import subprocess
+import sys
+import time
+
+from src.utils.data_leak_test import run_data_leak_tests
+from src.utils.PKL_obj import load_object
+
 
 api_url = "http://localhost:8000"
 
@@ -60,11 +68,38 @@ def test_batch():
 
 
 if __name__ == "__main__":
-    print("Starting API Connectivity Tests...")
+    api_process = subprocess.Popen([sys.executable, "-m", "app.Fast_api"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print("Starting FastAPI server...")
     
+    # Wait for the API to be ready
+    time.sleep(2)
+
+    print("--- Starting API Connectivity Tests ---")
+    # Client ID search tests
     test_search(713330558) 
     test_search(720244983)
-    
+
+    # Single prediction test
     test_prediction()
     
+    # Batch prediction test
     test_batch()
+
+    # Terminate the API process after testing
+    api_process.terminate()
+    api_process.wait()
+    print("API process terminated.")
+    
+    # Data leak tests
+    print("\n--- Starting Data Leak Tests ---")
+    train_df = pd.read_csv('artifacts/train.csv')
+    test_df =  pd.read_csv('artifacts/test.csv')
+    final_pipeline = load_object('artifacts/model.pkl')
+
+    X_train = train_df.drop(columns=['churn'])
+    y_train = train_df['churn']
+    X_test = test_df.drop(columns=['churn'])
+    y_test = test_df['churn']
+
+    top_features = ['total_trans_ct', 'total_trans_amt', 'total_revolving_bal' ]
+    run_data_leak_tests(final_pipeline, X_train, X_test, y_train, y_test, top_features)
